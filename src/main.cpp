@@ -5,10 +5,10 @@
 
 int main()
 {
-	Graph<Coordinate> g;
+	Graph<Coordinate, int> g;
 
-	g.insert({ 1,2 }, new BaseNode());
-	g.insert({ 2,2 }, new BaseNode());
+	g.insert({ 1,2 }, new Node<int>());
+	g.insert({ 2,2 }, new Node<int>());
 
 	g.addEdge({ 2,2 }, { 1,2 });
 	

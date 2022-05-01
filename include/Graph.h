@@ -2,26 +2,26 @@
 
 #include <memory>
 #include <map>
-#include "BaseNode.h"
+#include "Node.h"
 
-template<typename T>
+template<typename T1, typename T2>
 class Graph
 {
 public:
-	void insert(T id, BaseNode* node);
-	void addEdge(T id1, T id2);
+	void insert(T1 id, Node<T2>* node);
+	void addEdge(T1 id1, T1 id2);
 private:
-	std::map<T, BaseNode*> m_nodes;
+	std::map<T1, Node<T2>*> m_nodes;
 };
 
-template <typename T>
-void Graph<T>::insert(T id, BaseNode* node)
+template <typename T1, typename T2>
+void Graph<T1, T2>::insert(T1 id, Node<T2>* node)
 {
 	m_nodes.emplace(id, node);
 }
 
-template <typename T>
-void Graph<T>::addEdge(T id1, T id2)
+template <typename T1, typename T2>
+void Graph<T1, T2>::addEdge(T1 id1, T1 id2)
 {
 	if (!m_nodes.contains(id1) || !m_nodes.contains(id2))
 		throw std::exception("Node is not exists in the graph");
