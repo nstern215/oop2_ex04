@@ -8,16 +8,16 @@ template<typename T1, typename T2>
 class Graph
 {
 public:
-	void insert(T1 id, Node<T2>* node);
+	void insert(T1 id, T2 node);
 	void addEdge(T1 id1, T1 id2);
 private:
-	std::map<T1, Node<T2>*> m_nodes;
+	std::map<T1, std::shared_ptr<Node<T2>>> m_nodes;
 };
 
 template <typename T1, typename T2>
-void Graph<T1, T2>::insert(T1 id, Node<T2>* node)
+void Graph<T1, T2>::insert(T1 id, T2 node)
 {
-	m_nodes.emplace(id, node);
+	m_nodes.emplace(id, std::make_shared<Node<T2>>(node));
 }
 
 template <typename T1, typename T2>
