@@ -2,15 +2,22 @@
 
 #include "Coordinate.h"
 #include "Graph.h"
+#include "Controller.h"
+
 
 int main()
 {
-	Graph<Coordinate, int> g;
+	
+	Controller gameController;
 
-	g.insert({ 1,2 }, 1);
-	g.insert({ 2,2 }, 2);
+	gameController.run();
 
-	g.addEdge({ 2,2 }, { 1,2 });
+	//Graph<Coordinate, int> g;
+
+	//g.insert({ 1,2 }, 1);
+	//g.insert({ 2,2 }, 2);
+
+	//g.addEdge({ 2,2 }, { 1,2 });
 	
 
 	return EXIT_SUCCESS;
