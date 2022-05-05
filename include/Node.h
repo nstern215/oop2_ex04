@@ -30,7 +30,7 @@ public:
 
 		Iterator(std::unordered_set <std::shared_ptr<Node<T>>>::iterator iterator) :m_iterator(iterator) {}
 		Node<T>& operator*() { return *m_iterator->get(); }
-		Node<T>* operator->() { return m_iterator.operator->(); }
+		Node<T>* operator->() { return m_iterator->get(); }
 		Iterator operator++() { return ++m_iterator; }
 		bool operator==(const Iterator& other) const { return m_iterator == other.m_iterator; }
 		bool operator!=(const Iterator& other) const { return !(m_iterator == other.m_iterator); }
