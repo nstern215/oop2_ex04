@@ -24,8 +24,8 @@ public:
 		using reference = value_type&;
 		
 		Iterator(std::map < T1, std::shared_ptr<Node<T2>>>::iterator iterator) :m_iterator(iterator) {}
-		Node<T2>& operator*()	{ return *(m_iterator->second); }
-		Node<T2>* operator->()	{ return m_iterator->second.get(); }
+		reference operator*()	{ return *(m_iterator->second); }
+		pointer operator->()	{ return m_iterator->second.get(); }
 		Iterator operator++()	{ return ++m_iterator; }
 		bool operator==(const Iterator& other) const { return m_iterator == other.m_iterator; }
 		bool operator!=(const Iterator& other) const { return !(m_iterator == other.m_iterator); }
