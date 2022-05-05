@@ -8,23 +8,38 @@ class Node
 {
 public:
 	Node(T data = {});
-	Node(const Node& other);
 	void addNeighbor(std::shared_ptr<Node<T>> node);
 	T data() const;
+
+	friend class Iterator;
+
+	class Iterator
+	{
+	public:
+		using iterator_category = std::forward_iterator_tag;
+		using value_type = Node<T>;
+		using pointer = value_type*;
+		using reference = value_type&;
+		
+		Iterator(std::unordered_set <std::shared_ptr<Node<T>>>::iterator iterator) :m_iterator(iterator) {}
+		Node<T>& operator*()	{ return *m_iterator; }
+		Node<T>* operator->()	{ return m_iterator.operator->(); }
+		Iterator operator++()	{ return ++m_iterator; }
+		bool operator==(const Iterator& other) const { return m_iterator == other.m_iterator; }
+		bool operator!=(const Iterator& other) const { return !(m_iterator == other.m_iterator); }
+	private:
+		std::unordered_set <std::shared_ptr<Node<T>>>::iterator m_iterator;
+	};
+
+	Iterator begin()	{ return Iterator(m_neighbors.begin()); }
+	Iterator end()		{ return Iterator(m_neighbors.end()); }
 private:
 	std::unordered_set<std::shared_ptr<Node<T>>> m_neighbors;
 	T m_data;
 };
 
 template <typename T>
-Node<T>::Node(const Node& other):
-	m_data(other.data())
-{
-	std::cout << "copy ctor" << std::endl;
-}
-
-template <typename T>
-Node<T>::Node(T data):
+Node<T>::Node(T data) :
 	m_data(data)
 {}
 

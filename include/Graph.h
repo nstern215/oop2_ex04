@@ -13,10 +13,16 @@ public:
 	void addEdge(T1 id1, T1 id2);
 
 	
-	friend struct Iterator;
+	friend class Iterator;
 
-	struct Iterator
+	class Iterator
 	{
+	public:
+		using iterator_category = std::forward_iterator_tag;
+		using value_type = Node<T2>;
+		using pointer = value_type*;
+		using reference = value_type&;
+		
 		Iterator(std::map < T1, std::shared_ptr<Node<T2>>>::iterator iterator) :m_iterator(iterator) {}
 		Node<T2>& operator*()	{ return *(m_iterator->second); }
 		Node<T2>* operator->()	{ return m_iterator->second.get(); }
@@ -30,7 +36,7 @@ public:
 	Iterator begin()	{ return Iterator(m_nodes.begin()); }
 	Iterator end()		{ return Iterator(m_nodes.end()); }
 	
-	const Node<T2>& operator[](T1 id) const;
+	Node<T2>& operator[](T1 id) const;
 
 private:
 	std::map<T1, std::shared_ptr<Node<T2>>> m_nodes;
@@ -53,7 +59,7 @@ void Graph<T1, T2>::addEdge(T1 id1, T1 id2)
 }
 
 template <typename T1, typename T2>
-const Node<T2>& Graph<T1, T2>::operator[](T1 id) const
+Node<T2>& Graph<T1, T2>::operator[](T1 id) const
 {
 	return *m_nodes.at(id);
 }
