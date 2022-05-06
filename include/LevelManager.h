@@ -7,14 +7,13 @@
 #include "Circle.h"
 
 
-const int NUM_OF_ROWS = 11;
-const int NUM_OF_COLS = 11;
+const int NUM_OF_ROWS = 3;
+const int NUM_OF_COLS = 3;
 
 class LevelManager{
 
 public:
-	LevelManager();
-	~LevelManager() = default;
+	LevelManager() = default;
 
 	void handleClickEvent();
 
@@ -24,5 +23,5 @@ public:
 
 private:
 
-	Graph<Coordinate, Circle> m_gameMap;
+	Graph<std::pair<int, int>, Circle> m_gameMap;
 };

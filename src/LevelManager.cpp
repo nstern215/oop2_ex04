@@ -1,29 +1,39 @@
 #include "LevelManager.h"
 
-LevelManager::LevelManager(){}
-
 void LevelManager::buildGameMap()
 {
-	for(unsigned int i = 1 ; i <= NUM_OF_ROWS ; i++)
+	int a = 0;
+	
+	for (int i = 0; i < NUM_OF_ROWS; i++)
 	{
-		for(unsigned int j = 1 ; j <= NUM_OF_COLS ; j++)
+		for (int j = 0; j < NUM_OF_COLS; j++)
 		{
-			bool isEdge = false;
+			 bool isEdge = (i == 1) || (i == NUM_OF_ROWS) || (j == 1) || (j == NUM_OF_COLS);
 
-			if ((i == 1) || (i == NUM_OF_ROWS) || (j == 1) || (j == NUM_OF_COLS))
-				isEdge = true;
-
-			const Coordinate cor({i, j});
-			const Circle c(cor, isEdge);
-			m_gameMap.insert(cor, c);
+			
+			Circle c({i,j}, isEdge);
+			m_gameMap.insert({i,j}, c);
 		}
 	}
 }
 
 void LevelManager::drawGameMap(sf::RenderWindow& window)
 {
-	for(const auto& cell : m_gameMap)
+	int radius = 50;
+
+	
+	for (auto& cell : m_gameMap)
 	{
+		Coordinate cor = cell.data().getCoordinate();
+
+		int x = cor.m_col * (radius * 2);
+		int y = cor.m_row* (radius * 2);
+
+		if (cor.m_row % 2 != 0)
+			x += radius;
+
+		cell.data().setPosition(x, y);
+		
 		cell.data().draw(window);
 	}
 }

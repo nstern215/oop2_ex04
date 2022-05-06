@@ -15,6 +15,10 @@ public:
 
 	//void setSize(sf::Vector2f size) override;
 
+	Coordinate getCoordinate() const;
+
+	void setPosition(int x, int y);
+
 private:
 
 	sf::CircleShape m_shape;
