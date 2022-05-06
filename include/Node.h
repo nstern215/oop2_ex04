@@ -9,7 +9,7 @@ class Node
 public:
 	Node(T data = {});
 	void addNeighbor(std::shared_ptr<Node<T>> node);
-	T data() const;
+	T& data();
 
 	Node<T>* parent() const;
 	void setParent(Node<T>* parent);
@@ -59,7 +59,7 @@ void Node<T>::addNeighbor(std::shared_ptr<Node<T>> node)
 }
 
 template <typename T>
-T Node<T>::data() const
+T& Node<T>::data()
 {
 	return m_data;
 }
