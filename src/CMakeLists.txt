@@ -4,4 +4,5 @@
                                               "Controller.cpp"
                                               "Item.cpp"
                                               "LevelManager.cpp"
-                                              "Circle.cpp")
+                                              "Circle.cpp"
+                                              "GraphAlgorithm.cpp")

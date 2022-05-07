@@ -45,11 +45,7 @@ private:
 template <typename T1, typename T2>
 void Graph<T1, T2>::insert(T1 id, T2 node)
 {
-	auto c = m_nodes.contains(id);
-	
 	auto result = m_nodes.try_emplace(id, std::make_shared<Node<T2>>(node));
-	//auto result = m_nodes.insert(std::make_pair(id, std::make_shared<Node<T2>>(node)));
-	/*auto result = m_nodes.emplace(id, std::make_shared<Node<T2>>(node));*/
 }
 
 template <typename T1, typename T2>
