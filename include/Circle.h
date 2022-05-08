@@ -15,6 +15,9 @@ public:
 
 	Coordinate getCoordinate() const;
 
+	bool isEdge() const { return m_edge; }
+	bool isBlocked() const { return m_isBlocked; }
+
 	void setPosition(int x, int y);
 
 	bool mouseClicked(sf::Vector2i pressedPoint);
@@ -29,4 +32,5 @@ private:
 	sf::Vector2f m_position;
 
 	bool m_edge;
+	bool m_isBlocked = false;
 };

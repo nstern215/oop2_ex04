@@ -28,7 +28,7 @@ public:
 		using pointer = value_type*;
 		using reference = value_type&;
 
-		Iterator(std::unordered_set <std::shared_ptr<Node<T>>>::iterator iterator) :m_iterator(iterator) {}
+		Iterator(typename std::unordered_set <std::shared_ptr<Node<T>>>::iterator iterator) :m_iterator(iterator) {}
 		Node<T>& operator*() { return *m_iterator->get(); }
 		Node<T>* operator->() { return m_iterator->get(); }
 		Iterator operator++() { return ++m_iterator; }
@@ -39,7 +39,7 @@ public:
 	};
 
 	Iterator begin() const	{ return Iterator(m_neighbors.begin()); }
-	Iterator end() const	{ return Iterator(m_neighbors.end()); }
+	Iterator end() const 	{ return Iterator(m_neighbors.end()); }
 private:
 	std::unordered_set<std::shared_ptr<Node<T>>> m_neighbors;
 	T m_data;
