@@ -1,27 +1,24 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include <stack>
 
 #include "Graph.h"
-#include "Coordinate.h"
 #include "Circle.h"
+#include "Moves.h"
 
+enum GameDifficulty
+{
+	STARTER,
+	EASY,
+	MEDIUM,
+	HARD
+};
 
-const int NUM_OF_ROWS = 3;
-const int NUM_OF_COLS = 3;
 
 class LevelManager{
 
 public:
 	LevelManager() = default;
 
-	void handleClickEvent();
-
-	void buildGameMap();
-
-	void drawGameMap(sf::RenderWindow& window);
-
-private:
-
-	Graph<std::pair<int, int>, Circle> m_gameMap;
+	void setGameDifficulty();
 };

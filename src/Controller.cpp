@@ -2,22 +2,22 @@
 
 
 Controller::Controller():
-	m_window(sf::VideoMode(1000, 800), "Circle The Cat"),
-	m_bgColor(0, 0, 100, 0)
+	m_window(sf::VideoMode(950, 900), "Circle The Cat"),
+	m_bgColor(sf::Color::White)
 
 {}
 
 void Controller::run()
 {
-	m_manager.buildGameMap();
+	m_board.buildGame(m_window);
 
 	m_window.setFramerateLimit(120);
 
 	while (m_window.isOpen())
 	{
 		m_window.clear(m_bgColor);
-
-		m_manager.drawGameMap(m_window);
+		
+		m_board.drawGameMap(m_window);
 
 		m_window.display();
 
@@ -31,19 +31,12 @@ void Controller::run()
 			case sf::Event::MouseButtonReleased:
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{
+					sf::Vector2i pressedPoint = m_window.mapCoordsToPixel({ event.mouseButton.x, event.mouseButton.y });
 
-					break;
+					m_board.handelMouseClick(pressedPoint);
 				}
+				break;
 			}
 		}
 	}
-}
-
-void Controller::handelClick()
-{
-//	if (m_shape.getGlobalBounds().contains(
-//		m_window.mapPixelToCoords({ event.x, event.y })))
-//	{
-//		
-//	}
 }

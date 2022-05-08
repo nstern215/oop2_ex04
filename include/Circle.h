@@ -13,11 +13,14 @@ public:
 
 	void draw(sf::RenderWindow& window) override;
 
-	//void setSize(sf::Vector2f size) override;
-
 	Coordinate getCoordinate() const;
 
 	void setPosition(int x, int y);
+	/*void setPosition(sf::Vector2f position);*/
+
+	int getRadius();
+
+	sf::Vector2f getPosition();
 
 private:
 

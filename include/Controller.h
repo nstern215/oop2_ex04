@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "LevelManager.h"
+#include "Board.h"
 
 class Controller{
 
@@ -13,9 +14,9 @@ public:
 
 	void run();
 
-	void handelClick();
-	
 private:
+
+	Board m_board;
 
 	LevelManager m_manager;
 
