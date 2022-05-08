@@ -16,7 +16,8 @@ public:
 	Coordinate getCoordinate() const;
 
 	void setPosition(int x, int y);
-	/*void setPosition(sf::Vector2f position);*/
+
+	bool mouseClicked(sf::Vector2i pressedPoint);
 
 	int getRadius();
 

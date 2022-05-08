@@ -14,6 +14,10 @@ public:
 
 	void run();
 
+	void buildResetButton();
+
+	void buildUndoButton();
+
 private:
 
 	Board m_board;
@@ -21,6 +25,9 @@ private:
 	LevelManager m_manager;
 
 	sf::RenderWindow m_window;
+
+	sf::RectangleShape m_resetButton;
+	sf::RectangleShape m_undoButton;
 
 	sf::Color m_bgColor;
 };

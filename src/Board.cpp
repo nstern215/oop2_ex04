@@ -6,6 +6,8 @@ Board::Board()
 	font.loadFromFile(FONT_PATH);
 	sf::Text undoButton(std::to_string(0), font);
 	undoButton.setFillColor(sf::Color::Black);
+
+	m_firstPlay = true;
 }
 
 
@@ -51,9 +53,6 @@ void Board::drawGameMap(sf::RenderWindow& window)
 	}
 
 	m_gameCat.draw(window);
-
-	window.draw(m_resetButton);
-	window.draw(m_undoButton);
 }
 
 void Board::setCatPosition()
@@ -74,8 +73,6 @@ void Board::buildGame(sf::RenderWindow& window)
 	buildMapBoarder(window);
 	buildGameMap();
 	setCatPosition();
-	buildResetButton(window);
-	buildUndoButton(window);
 }
 
 void Board::buildMapBoarder(sf::RenderWindow& window)
@@ -93,36 +90,6 @@ void Board::buildMapBoarder(sf::RenderWindow& window)
 	m_mapBorder.setPosition(boardOrigin);
 }
 
-void Board::buildResetButton(sf::RenderWindow& window)
-{
-	const auto windowSize = window.getSize();
-
-	const sf::Vector2f buttonSize(static_cast<float>(windowSize.x) * 0.15f, static_cast<float>(windowSize.y) * 0.05f);
-
-	const sf::Vector2f buttonOrigin(static_cast<float>(windowSize.x) * 0.03f, static_cast<float>(windowSize.y) * 0.94f);
-
-	m_resetButton.setSize(buttonSize);
-	m_resetButton.setOutlineThickness(8);
-	m_resetButton.setOutlineColor(sf::Color::Cyan);
-	m_resetButton.setFillColor(sf::Color::White);
-	m_resetButton.setPosition(buttonOrigin);
-}
-
-void Board::buildUndoButton(sf::RenderWindow& window)
-{
-	const auto windowSize = window.getSize();
-
-	const sf::Vector2f buttonSize(static_cast<float>(windowSize.x) * 0.15f, static_cast<float>(windowSize.y) * 0.05f);
-
-	const sf::Vector2f buttonOrigin(static_cast<float>(windowSize.x) * 0.82f, static_cast<float>(windowSize.y) * 0.94f);
-
-	m_undoButton.setSize(buttonSize);
-	m_undoButton.setOutlineThickness(8);
-	m_undoButton.setOutlineColor(sf::Color::Cyan);
-	m_undoButton.setFillColor(sf::Color::White);
-	m_undoButton.setPosition(buttonOrigin);
-}
-
 void Board::handelMouseClick(sf::Vector2i pressedPoint)
 {
 	int x = pressedPoint.x;
@@ -130,17 +97,13 @@ void Board::handelMouseClick(sf::Vector2i pressedPoint)
 
 	if (m_mapBorder.getGlobalBounds().contains(x,y));
 	{
-
-	}
-
-	if (m_resetButton.getGlobalBounds().contains(x, y))
-	{
-
-	}
-
-	if (m_undoButton.getGlobalBounds().contains(x, y))
-	{
-
+		for (auto& node : m_gameMap)
+		{
+			if (node.data().mouseClicked(pressedPoint))
+			{
+				break;
+			}
+		}
 	}
 }
 
