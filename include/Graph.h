@@ -23,18 +23,18 @@ public:
 		using pointer = value_type*;
 		using reference = value_type&;
 		
-		Iterator(std::map < T1, std::shared_ptr<Node<T2>>>::iterator iterator) :m_iterator(iterator) {}
-		reference operator*()	{ return *(m_iterator->second); }
-		pointer operator->()	{ return m_iterator->second.get(); }
-		Iterator operator++()	{ return ++m_iterator; }
-		bool operator==(const Iterator& other) const { return m_iterator == other.m_iterator; }
-		bool operator!=(const Iterator& other) const { return !(m_iterator == other.m_iterator); }
+		Iterator(std::map < T1, std::shared_ptr<Node<T2>>>::iterator iterator);
+		reference operator*();
+		pointer operator->();
+		Iterator operator++();
+		bool operator==(const Iterator& other) const;
+		bool operator!=(const Iterator& other) const;
 	private:
 		std::map < T1, std::shared_ptr<Node<T2>>>::iterator m_iterator;
 	};
 
-	Iterator begin()	{ return Iterator(m_nodes.begin()); }
-	Iterator end()		{ return Iterator(m_nodes.end()); }
+	Iterator begin();
+	Iterator end();
 	
 	Node<T2>& operator[](T1 id) const;
 
@@ -64,3 +64,50 @@ Node<T2>& Graph<T1, T2>::operator[](T1 id) const
 	return *m_nodes.at(id);
 }
 
+template <typename T1, typename T2>
+typename Graph<T1, T2>::Iterator Graph<T1, T2>::begin()
+{
+	return Iterator(m_nodes.begin());
+}
+
+template <typename T1, typename T2>
+typename Graph<T1, T2>::Iterator Graph<T1, T2>::end()
+{
+	return Iterator(m_nodes.end());
+}
+
+//Iterator
+template <typename T1, typename T2>
+Graph<T1, T2>::Iterator::Iterator(typename std::map<T1, std::shared_ptr<Node<T2>>>::iterator iterator):
+	m_iterator(iterator)
+{}
+
+template <typename T1, typename T2>
+typename Graph<T1, T2>::Iterator::reference Graph<T1, T2>::Iterator::operator*()
+{
+	return *(m_iterator->second);
+}
+
+template <typename T1, typename T2>
+typename Graph<T1, T2>::Iterator::pointer Graph<T1, T2>::Iterator::operator->()
+{
+	return m_iterator->second.get();
+}
+
+template <typename T1, typename T2>
+typename Graph<T1, T2>::Iterator Graph<T1, T2>::Iterator::operator++()
+{
+	return ++m_iterator;
+}
+
+template <typename T1, typename T2>
+bool Graph<T1, T2>::Iterator::operator==(const Iterator& other) const
+{
+	return m_iterator == other.m_iterator;
+}
+
+template <typename T1, typename T2>
+bool Graph<T1, T2>::Iterator::operator!=(const Iterator& other) const
+{
+	return !(m_iterator == other.m_iterator);
+}

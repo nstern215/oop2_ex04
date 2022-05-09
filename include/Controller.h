@@ -19,10 +19,11 @@ public:
 
 	void undoMove();
 
-	void addMoveToHistory();
-
 private:
 
+	bool isCatWin() const;
+	bool isCatLose() const;
+	
 	Board m_board;
 
 	LevelManager m_manager;

@@ -1,4 +1,6 @@
 #include "Board.h"
+
+#include "CatAlgorithm.h"
 #include "Moves.h"
 #include "GraphAlgorithm.h"
 
@@ -176,29 +178,27 @@ void Board::undoMove()
 
 void Board::moveCat()
 {
-	CatAlgorithm cat;
 	const auto catCor = m_gameCat.getCoordinate();
 	Node<Circle>* catNode = &m_gameMap[{catCor.m_row, catCor.m_col}];
 
-	auto dest = cat.move(m_gameMap.begin(), m_gameMap.end(), catNode);
-	if (dest.m_col == -1)
-	{
-		
-	}
-	else
-	{
-		m_gameCat.setCoordinants(dest.m_row, dest.m_col);
-	}
-
-
-	/*for (auto& node : m_gameMap)
-	{
-		if ((m_gameCat.getCoordinate().m_col == node.data().getCoordinate().m_col) &&
-				(m_gameCat.getCoordinate().m_row == node.data().getCoordinate().m_row))
-		{
-			m_gameCat.setCoordinants(m_gameCat.getCoordinate().m_col + 1, m_gameCat.getCoordinate().m_row);
-			break;
-		}
-	}*/
+	m_gameCat.move(m_gameMap.begin(), m_gameMap.end(), catNode);	
+	
 	setCatPosition();
+}
+
+bool Board::IsCatBlocked() const
+{
+	const auto catCor = m_gameCat.getCoordinate();
+
+	for (const auto& node : m_gameMap[{catCor.m_col, catCor.m_row}])
+		if (!node.data().isBlocked())
+			return false;
+
+	return true;
+}
+
+bool Board::IsCatInEdge() const
+{
+	const auto catCor = m_gameCat.getCoordinate();
+	return m_gameMap[{catCor.m_col, catCor.m_row}].data().isEdge();
 }

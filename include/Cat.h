@@ -2,11 +2,16 @@
 
 #include "Item.h"
 #include "Circle.h"
+#include "Graph.h"
+#include "Node.h"
 
 
 class Cat: public Item{
 
 public:
+
+#define START_COL 5
+#define START_ROW 5
 
 	Cat(Coordinate cor = {0 , 0});
 	~Cat() = default;
@@ -21,11 +26,12 @@ public:
 
 	void setPosition(int x, int y);
 
-	int getRadius();
+	int getRadius() const;
 
-	sf::Vector2f getPosition();
+	sf::Vector2f getPosition() const;
 
-	void move(sf::Vector2f newposition);
+	//void move(sf::Vector2f newposition);
+	void move(Graph<std::pair<int, int>, Circle>::Iterator begin, Graph<std::pair<int, int>, Circle>::Iterator end, Node<Circle>* catLocation);
 
 private:
 

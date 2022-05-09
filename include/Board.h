@@ -25,6 +25,9 @@ public:
 	bool firstPlay();
 	bool handelMouseClick(sf::Vector2i pressedPoint);
 
+	bool IsCatBlocked() const;
+	bool IsCatInEdge() const;
+
 private:
 
 	sf::RectangleShape m_mapBorder;

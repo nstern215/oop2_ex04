@@ -48,6 +48,12 @@ void Controller::run()
 
 					if (m_board.handelMouseClick(pressedPoint))
 					{
+						if (isCatWin())
+							resetGame();
+
+						if (isCatLose())
+							resetGame();
+						
 						break;
 					}
 					if (m_resetButton.handleMouseClick(pressedPoint))
@@ -74,3 +80,14 @@ void Controller::undoMove()
 {
 	m_board.undoMove();
 }
+
+bool Controller::isCatWin() const
+{
+	return m_board.IsCatInEdge();
+}
+
+bool Controller::isCatLose() const
+{
+	return m_board.IsCatBlocked();
+}
+
