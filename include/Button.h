@@ -3,11 +3,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-enum ButtonName {
-
-	RESET = 0,
-	UNDO = 1
-};
 
 class Button{
 
