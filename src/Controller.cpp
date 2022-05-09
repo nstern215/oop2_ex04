@@ -10,6 +10,7 @@ Controller::Controller():
 
 void Controller::run()
 {
+	//todo: create function to build game elements
 	m_board.buildGame(m_window);
 
 	m_resetButton.buildButton(m_window);
@@ -20,6 +21,7 @@ void Controller::run()
 
 	while (m_window.isOpen())
 	{
+		//todo: create function to draw all interface elements
 		m_window.clear(m_bgColor);
 
 		m_board.drawGameMap(m_window);
@@ -48,7 +50,7 @@ void Controller::run()
 					{
 						break;
 					}
-					else if (m_resetButton.handleMouseClick(pressedPoint))
+					if (m_resetButton.handleMouseClick(pressedPoint))
 					{
 						resetGame();
 					}

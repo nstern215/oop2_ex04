@@ -9,28 +9,26 @@ Board::Board()
 
 void Board::buildGameMap()
 {
-	int a = 0;
-
 	for (int i = 0; i < NUM_OF_ROWS; i++)
 	{
 		for (int j = 0; j < NUM_OF_COLS; j++)
 		{
-			bool isEdge = (i == 1) || (i == NUM_OF_ROWS) || (j == 1) || (j == NUM_OF_COLS);
+			const bool isEdge = (i == 1) || (i == NUM_OF_ROWS) || (j == 1) || (j == NUM_OF_COLS);
 
 			Circle c({ i,j }, isEdge);
 			m_gameMap.insert({ i,j }, c);
 		}
 	}
 
+	const auto mapSize = m_mapBorder.getSize();
+	
 	for (auto& cell : m_gameMap)
 	{
-		const auto mapSize = m_mapBorder.getSize();
-
-		Coordinate cor = cell.data().getCoordinate();
+		const Coordinate cor = cell.data().getCoordinate();
 
 		int x = (static_cast<float>(mapSize.x) * 0.06f) + (cor.m_col * (cell.data().getRadius() * 2.1));
 
-		int y = (static_cast<float>(mapSize.y) * 0.06f) + (cor.m_row * (cell.data().getRadius() * 2));
+		const int y = (static_cast<float>(mapSize.y) * 0.06f) + (cor.m_row * (cell.data().getRadius() * 2));
 
 		if (cor.m_row % 2 != 0)
 			x += cell.data().getRadius();
@@ -55,11 +53,11 @@ void Board::setCatPosition()
 {
 	const auto mapSize = m_mapBorder.getSize();
 
-	Coordinate cordi = m_gameCat.getCoordinate();
+	const Coordinate cordi = m_gameCat.getCoordinate();
 
 	int x = (static_cast<float>(mapSize.x) * 0.06f) + (cordi.m_col * (m_gameCat.getRadius() * 2.1));
 
-	int y = (static_cast<float>(mapSize.y) * 0.06f) + (cordi.m_row * (m_gameCat.getRadius() * 2));
+	const int y = (static_cast<float>(mapSize.y) * 0.06f) + (cordi.m_row * (m_gameCat.getRadius() * 2));
 
 	if (cordi.m_row % 2 != 0)
 		x += m_gameCat.getRadius();
@@ -91,10 +89,8 @@ void Board::buildMapBoarder(sf::RenderWindow& window)
 
 bool Board::handelMouseClick(sf::Vector2i pressedPoint)
 {
-	bool clicked = false;
-
-	int x = pressedPoint.x;
-	int y = pressedPoint.y;
+	const int x = pressedPoint.x;
+	const int y = pressedPoint.y;
 
 	if (m_mapBorder.getGlobalBounds().contains(x,y));
 	{
@@ -111,13 +107,12 @@ bool Board::handelMouseClick(sf::Vector2i pressedPoint)
 
 				moveCat();
 
-				clicked = true;
-				break;
+				return true;
 			}
 		}
 	}
 
-	return clicked;
+	return false;
 }
 
 bool Board::firstPlay()
@@ -143,15 +138,9 @@ void Board::newGame()
 
 void Board::undoMove()
 {
+
+	m_gameMap[{m_gameMoveHistory.top().pressedCircleCor.m_row, m_gameMoveHistory.top().pressedCircleCor.m_col}].data().activateCircle();
 	
-	for (auto& node : m_gameMap)
-	{
-		if ((node.data().getCoordinate().m_col == m_gameMoveHistory.top().pressedCircleCor.m_col) &&
-			(node.data().getCoordinate().m_row == m_gameMoveHistory.top().pressedCircleCor.m_row))
-		{
-			node.data().activateCircle();
-		}
-	}
 	m_gameCat.setCoordinants(m_gameMoveHistory.top().catCor.m_col, m_gameMoveHistory.top().catCor.m_row);
 	setCatPosition();
 
