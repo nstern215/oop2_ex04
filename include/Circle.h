@@ -16,7 +16,7 @@ public:
 	Coordinate getCoordinate() const;
 
 	bool isEdge() const { return m_edge; }
-	bool isBlocked() const { return m_isBlocked; }
+	bool isBlocked() const { return !m_active ; }
 
 	void activateCircle();
 	void setPosition(int x, int y);

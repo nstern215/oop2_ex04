@@ -110,9 +110,16 @@ private:
 
 inline Coordinate CatAlgorithm::move(Graph<std::pair<int, int>, Circle>::Iterator begin, Graph<std::pair<int, int>, Circle>::Iterator end, Node<Circle>* catLocation) const
 {
+	auto iterator = begin;
+	for (; iterator != end; ++iterator)
+	{
+		iterator->setDistance(0);
+		iterator->setParent(nullptr);
+	}
+	
 	for (auto& n : *catLocation)
 	{
-		if (n.data().isEdge())
+		if (n.data().isEdge() && !n.data().isBlocked())
 			return n.data().getCoordinate();
 	}
 
@@ -124,11 +131,14 @@ inline Coordinate CatAlgorithm::move(Graph<std::pair<int, int>, Circle>::Iterato
 
 	if (edges.empty()) //the cat cannot reach the edge of the board
 	{
-		return catLocation->begin()->data().getCoordinate();
+		for (auto& node : *catLocation)
+			if (!node.data().isBlocked())
+				return node.data().getCoordinate();
+		
+		return {-1, -1};
 	}
 
 	std::ranges::sort(edges, [](Node<Circle>& a, Node<Circle>& b) {return a.distance() < b.distance(); });
-	//const int minDistance = std::min_element(edges.begin(), edges.end(), [](Node<Circle> n) {return n.distance(); })->distance();
 
 	const int minDistance = edges[0].distance();
 	
@@ -144,11 +154,15 @@ inline Coordinate CatAlgorithm::move(Graph<std::pair<int, int>, Circle>::Iterato
 
 	Node<Circle>* dest = railsRisk[0].first;
 
-	while (dest->parent() != nullptr)
-		dest = dest->parent();
+	if(dest->parent() != catLocation)
+	{
+		do
+		{
+			dest = dest->parent();
+		} while (dest->parent() != catLocation);
+	}
 
 	return dest->data().getCoordinate();
-	//return nullptr;
 }
 
 

@@ -1,5 +1,6 @@
 #include "Board.h"
 #include "Moves.h"
+#include "GraphAlgorithm.h"
 
 Board::Board()
 {
@@ -13,7 +14,7 @@ void Board::buildGameMap()
 	{
 		for (int j = 0; j < NUM_OF_COLS; j++)
 		{
-			const bool isEdge = (i == 1) || (i == NUM_OF_ROWS) || (j == 1) || (j == NUM_OF_COLS);
+			const bool isEdge = (i == 0) || (i == NUM_OF_ROWS-1) || (j == 0) || (j == NUM_OF_COLS-1);
 
 			Circle c({ i,j }, isEdge);
 			m_gameMap.insert({ i,j }, c);
@@ -21,7 +22,7 @@ void Board::buildGameMap()
 	}
 
 	const auto mapSize = m_mapBorder.getSize();
-	
+
 	for (auto& cell : m_gameMap)
 	{
 		const Coordinate cor = cell.data().getCoordinate();
@@ -34,6 +35,32 @@ void Board::buildGameMap()
 			x += cell.data().getRadius();
 
 		cell.data().setPosition(x, y);
+	}
+
+	for (int i = 0; i < NUM_OF_ROWS; i++)
+	{
+		for (int j = 0; j < NUM_OF_COLS; j++)
+		{
+			const auto current = std::make_pair<int, int>(std::move(i), std::move(j));
+
+			std::list<std::pair<int, int>> neighbors = { {i, j - 1},{i, j + 1},{i - 1, j},{i + 1,j} };
+
+			if (i % 2 == 0)
+			{
+				neighbors.emplace_back(std::make_pair<int, int>( i - 1, j - 1 ));
+				neighbors.emplace_back(std::make_pair<int, int>( i + 1, j - 1 ));
+			}
+			else
+			{
+				neighbors.emplace_back(std::make_pair<int, int>( i - 1, j + 1 ));
+				neighbors.emplace_back(std::make_pair<int, int>( i + 1, j + 1 ));
+			}
+
+			for (std::list<std::pair<int, int>>::value_type neighbor : neighbors)
+			{
+				m_gameMap.addEdge(current, neighbor);
+			}
+		}
 	}
 }
 
@@ -92,7 +119,7 @@ bool Board::handelMouseClick(sf::Vector2i pressedPoint)
 	const int x = pressedPoint.x;
 	const int y = pressedPoint.y;
 
-	if (m_mapBorder.getGlobalBounds().contains(x,y));
+	if (m_mapBorder.getGlobalBounds().contains(x, y));
 	{
 		for (auto& node : m_gameMap)
 		{
@@ -140,7 +167,7 @@ void Board::undoMove()
 {
 
 	m_gameMap[{m_gameMoveHistory.top().pressedCircleCor.m_row, m_gameMoveHistory.top().pressedCircleCor.m_col}].data().activateCircle();
-	
+
 	m_gameCat.setCoordinants(m_gameMoveHistory.top().catCor.m_col, m_gameMoveHistory.top().catCor.m_row);
 	setCatPosition();
 
@@ -149,7 +176,22 @@ void Board::undoMove()
 
 void Board::moveCat()
 {
-	for (auto& node : m_gameMap) 
+	CatAlgorithm cat;
+	const auto catCor = m_gameCat.getCoordinate();
+	Node<Circle>* catNode = &m_gameMap[{catCor.m_row, catCor.m_col}];
+
+	auto dest = cat.move(m_gameMap.begin(), m_gameMap.end(), catNode);
+	if (dest.m_col == -1)
+	{
+		
+	}
+	else
+	{
+		m_gameCat.setCoordinants(dest.m_row, dest.m_col);
+	}
+
+
+	/*for (auto& node : m_gameMap)
 	{
 		if ((m_gameCat.getCoordinate().m_col == node.data().getCoordinate().m_col) &&
 				(m_gameCat.getCoordinate().m_row == node.data().getCoordinate().m_row))
@@ -157,6 +199,6 @@ void Board::moveCat()
 			m_gameCat.setCoordinants(m_gameCat.getCoordinate().m_col + 1, m_gameCat.getCoordinate().m_row);
 			break;
 		}
-	}
+	}*/
 	setCatPosition();
 }

@@ -17,8 +17,8 @@ Coordinate Cat::getCoordinate() const
 
 void Cat::setCoordinants(int x, int y)
 {
-	m_coordinate.m_col = x;
-	m_coordinate.m_row = y;
+	m_coordinate.m_row = x;
+	m_coordinate.m_col = y;
 }
 
 void Cat::draw(sf::RenderWindow& window)

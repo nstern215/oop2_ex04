@@ -38,8 +38,8 @@ public:
 		std::unordered_set <std::shared_ptr<Node<T>>>::iterator m_iterator;
 	};
 
-	Iterator begin() const	{ return Iterator(m_neighbors.begin()); }
-	Iterator end() const 	{ return Iterator(m_neighbors.end()); }
+	Iterator begin() const { return Iterator(m_neighbors.begin()); }
+	Iterator end() const { return Iterator(m_neighbors.end()); }
 private:
 	std::unordered_set<std::shared_ptr<Node<T>>> m_neighbors;
 	T m_data;
@@ -55,7 +55,8 @@ Node<T>::Node(T data) :
 template <typename T>
 void Node<T>::addNeighbor(std::shared_ptr<Node<T>> node)
 {
-	m_neighbors.insert(node);
+	if (m_neighbors.count(node) == 0)
+		m_neighbors.insert(node);
 }
 
 template <typename T>
