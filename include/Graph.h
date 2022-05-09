@@ -51,8 +51,8 @@ void Graph<T1, T2>::insert(T1 id, T2 node)
 template <typename T1, typename T2>
 void Graph<T1, T2>::addEdge(T1 id1, T1 id2)
 {
-	if (!m_nodes.contains(id1) || !m_nodes.contains(id2))
-		throw std::exception("Node is not exists in the graph");
+	if (m_nodes.count(id1) == 0 || m_nodes.count(id2) == 0)
+		return;
 
 	m_nodes.at(id1)->addNeighbor(m_nodes.at(id2));
 	m_nodes.at(id2)->addNeighbor(m_nodes.at(id1));

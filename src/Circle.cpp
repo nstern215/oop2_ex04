@@ -31,13 +31,8 @@ int Circle::getRadius()
 
 void Circle::activateCircle()
 {
-	m_active = !m_active;
-	m_isBlocked = m_active;
-	//m_active = true;
-	if (m_active)
-		m_shape.setFillColor(sf::Color(252, 248, 3));
-	else
-		m_shape.setFillColor(sf::Color(3, 173, 35));
+	m_active = true;
+	m_shape.setFillColor(sf::Color(252, 248, 3));
 }
 
 void Circle::setPosition(int x, int y)
