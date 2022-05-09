@@ -48,6 +48,8 @@ endif ()
 
 add_executable (${CMAKE_PROJECT_NAME} WIN32)
 
+target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:-fsanitize=address>)
+
 add_subdirectory (include)
 add_subdirectory (src)
 add_subdirectory (resources)
