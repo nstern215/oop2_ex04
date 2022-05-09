@@ -19,7 +19,7 @@ public:
 
 	void undoMove();
 
-	void addMoveToHistory();
+	void drawAllElements();
 
 private:
 

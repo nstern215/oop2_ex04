@@ -1,6 +1,5 @@
 #include "Controller.h"
 
-
 Controller::Controller():
 	m_window(sf::VideoMode(950, 900), "Circle The Cat"),
 	m_bgColor(sf::Color(204, 207, 176)),
@@ -73,4 +72,9 @@ void Controller::resetGame()
 void Controller::undoMove()
 {
 	m_board.undoMove();
+}
+
+void Controller::drawAllElements()
+{
+
 }
