@@ -18,6 +18,7 @@ public:
 	bool isEdge() const { return m_edge; }
 	bool isBlocked() const { return m_isBlocked; }
 
+	void activateCircle();
 	void setPosition(int x, int y);
 
 	bool mouseClicked(sf::Vector2i pressedPoint);

@@ -1,12 +1,8 @@
 #include "Board.h"
+#include "Moves.h"
 
 Board::Board()
 {
-	auto font = sf::Font();
-	font.loadFromFile(FONT_PATH);
-	sf::Text undoButton(std::to_string(0), font);
-	undoButton.setFillColor(sf::Color::Black);
-
 	m_firstPlay = true;
 }
 
@@ -32,9 +28,9 @@ void Board::buildGameMap()
 
 		Coordinate cor = cell.data().getCoordinate();
 
-		int x = (static_cast<float>(mapSize.x) * 0.06f) + (cell.data().getCoordinate().m_col * (cell.data().getRadius() * 2.1));
+		int x = (static_cast<float>(mapSize.x) * 0.06f) + (cor.m_col * (cell.data().getRadius() * 2.1));
 
-		int y = (static_cast<float>(mapSize.y) * 0.06f) + (cell.data().getCoordinate().m_row * (cell.data().getRadius() * 2));
+		int y = (static_cast<float>(mapSize.y) * 0.06f) + (cor.m_row * (cell.data().getRadius() * 2));
 
 		if (cor.m_row % 2 != 0)
 			x += cell.data().getRadius();
@@ -57,12 +53,15 @@ void Board::drawGameMap(sf::RenderWindow& window)
 
 void Board::setCatPosition()
 {
-	Coordinate cor = m_gameMap[{6, 6}].data().getCoordinate();
+	const auto mapSize = m_mapBorder.getSize();
 
-	int x = cor.m_col * (m_gameCat.getRadius() * 2);
-	int y = cor.m_row * (m_gameCat.getRadius() * 2);
+	Coordinate cordi = m_gameCat.getCoordinate();
 
-	if (cor.m_row % 2 != 0)
+	int x = (static_cast<float>(mapSize.x) * 0.06f) + (cordi.m_col * (m_gameCat.getRadius() * 2.1));
+
+	int y = (static_cast<float>(mapSize.y) * 0.06f) + (cordi.m_row * (m_gameCat.getRadius() * 2));
+
+	if (cordi.m_row % 2 != 0)
 		x += m_gameCat.getRadius();
 
 	m_gameCat.setPosition(x, y);
@@ -85,13 +84,15 @@ void Board::buildMapBoarder(sf::RenderWindow& window)
 
 	m_mapBorder.setSize(boardSize - sf::Vector2f(3.f, 3.f));
 	m_mapBorder.setOutlineThickness(8);
-	m_mapBorder.setOutlineColor(sf::Color::Cyan);
-	m_mapBorder.setFillColor(sf::Color::White);
+	m_mapBorder.setOutlineColor(sf::Color(204, 207, 176));
+	m_mapBorder.setFillColor(sf::Color(204, 207, 176));
 	m_mapBorder.setPosition(boardOrigin);
 }
 
-void Board::handelMouseClick(sf::Vector2i pressedPoint)
+bool Board::handelMouseClick(sf::Vector2i pressedPoint)
 {
+	bool clicked = false;
+
 	int x = pressedPoint.x;
 	int y = pressedPoint.y;
 
@@ -101,10 +102,22 @@ void Board::handelMouseClick(sf::Vector2i pressedPoint)
 		{
 			if (node.data().mouseClicked(pressedPoint))
 			{
+				Moves move;
+
+				move.catCor = m_gameCat.getCoordinate();
+				move.pressedCircleCor = node.data().getCoordinate();
+
+				m_gameMoveHistory.push(move);
+
+				moveCat();
+
+				clicked = true;
 				break;
 			}
 		}
 	}
+
+	return clicked;
 }
 
 bool Board::firstPlay()
@@ -120,10 +133,41 @@ bool Board::firstPlay()
 
 void Board::newGame()
 {
-	m_firstPlay = true;
-
 	while (!(m_gameMoveHistory.empty()))
 	{
-		m_gameMoveHistory.pop();
+		undoMove();
 	}
+
+	m_firstPlay = true;
+}
+
+void Board::undoMove()
+{
+	
+	for (auto& node : m_gameMap)
+	{
+		if ((node.data().getCoordinate().m_col == m_gameMoveHistory.top().pressedCircleCor.m_col) &&
+			(node.data().getCoordinate().m_row == m_gameMoveHistory.top().pressedCircleCor.m_row))
+		{
+			node.data().activateCircle();
+		}
+	}
+	m_gameCat.setCoordinants(m_gameMoveHistory.top().catCor.m_col, m_gameMoveHistory.top().catCor.m_row);
+	setCatPosition();
+
+	m_gameMoveHistory.pop();
+}
+
+void Board::moveCat()
+{
+	for (auto& node : m_gameMap) 
+	{
+		if ((m_gameCat.getCoordinate().m_col == node.data().getCoordinate().m_col) &&
+				(m_gameCat.getCoordinate().m_row == node.data().getCoordinate().m_row))
+		{
+			m_gameCat.setCoordinants(m_gameCat.getCoordinate().m_col + 1, m_gameCat.getCoordinate().m_row);
+			break;
+		}
+	}
+	setCatPosition();
 }

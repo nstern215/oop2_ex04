@@ -6,5 +6,6 @@
                                               "LevelManager.cpp"
                                               "Cat.cpp"
                                               "Board.cpp"
+                                              "Button.cpp"
                                               "Circle.cpp"
                                               "GraphAlgorithm.cpp")

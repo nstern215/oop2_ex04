@@ -5,7 +5,7 @@ Circle::Circle(Coordinate cor, bool edge):
 	m_edge(edge)
 {
 	m_shape.setRadius(35);
-	m_shape.setFillColor(sf::Color::Yellow);
+	m_shape.setFillColor(sf::Color(252, 248, 3));
 }
 
 void Circle::draw(sf::RenderWindow& window)
@@ -29,6 +29,12 @@ int Circle::getRadius()
 	return m_shape.getRadius();
 }
 
+void Circle::activateCircle()
+{
+	m_active = true;
+	m_shape.setFillColor(sf::Color(252, 248, 3));
+}
+
 void Circle::setPosition(int x, int y)
 {
 	m_shape.setPosition(x, y);
@@ -36,15 +42,18 @@ void Circle::setPosition(int x, int y)
 
 bool Circle::mouseClicked(sf::Vector2i pressedPoint)
 {
-	int x = pressedPoint.x;
-	int y = pressedPoint.y;
-
-	if (m_shape.getGlobalBounds().contains(x, y))
+	if (m_active)
 	{
-		m_shape.setFillColor(sf::Color::Green);
-		m_active = false;
+		int x = pressedPoint.x;
+		int y = pressedPoint.y;
 
-		return true;
+		if (m_shape.getGlobalBounds().contains(x, y))
+		{
+			m_shape.setFillColor(sf::Color(3, 173, 35));
+			m_active = false;
+
+			return true;
+		}
 	}
 	return false;
 }

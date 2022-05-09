@@ -3,29 +3,30 @@
 
 Controller::Controller():
 	m_window(sf::VideoMode(950, 900), "Circle The Cat"),
-	m_bgColor(sf::Color::White)
-
+	m_bgColor(sf::Color(204, 207, 176)),
+	m_resetButton("Reset"),
+	m_undoButton("Undo")
 {}
 
 void Controller::run()
 {
 	m_board.buildGame(m_window);
 
-	buildResetButton();
+	m_resetButton.buildButton(m_window);
 
-	buildUndoButton();
+	m_undoButton.buildButton(m_window);
 
 	m_window.setFramerateLimit(120);
 
 	while (m_window.isOpen())
 	{
 		m_window.clear(m_bgColor);
-		
+
 		m_board.drawGameMap(m_window);
 
-		m_window.draw(m_resetButton);
+		m_resetButton.draw(m_window);
 
-		m_window.draw(m_undoButton);
+		m_undoButton.draw(m_window);
 
 		m_window.display();
 
@@ -43,48 +44,31 @@ void Controller::run()
 
 					sf::Vector2i pressedPoint = m_window.mapCoordsToPixel(clickPoint);
 
-					m_board.handelMouseClick(pressedPoint);
+					if (m_board.handelMouseClick(pressedPoint))
+					{
+						break;
+					}
+					else if (m_resetButton.handleMouseClick(pressedPoint))
+					{
+						resetGame();
+					}
+					else if (m_undoButton.handleMouseClick(pressedPoint))
+					{
+						undoMove();
+					}
+					break;
 				}
-				//else if (m_resetButton.getGlobalBounds().contains(x, y))
-				//{
-
-				//}
-				//else if (m_undoButton.getGlobalBounds().contains(x, y))
-				//{
-
-				//}
-				break;
 			}
 		}
 	}
 }
 
-void Controller::buildResetButton()
+void Controller::resetGame()
 {
-	const auto windowSize = m_window.getSize();
-
-	const sf::Vector2f buttonSize(static_cast<float>(windowSize.x) * 0.15f, static_cast<float>(windowSize.y) * 0.05f);
-
-	const sf::Vector2f buttonOrigin(static_cast<float>(windowSize.x) * 0.03f, static_cast<float>(windowSize.y) * 0.94f);
-
-	m_resetButton.setSize(buttonSize);
-	m_resetButton.setOutlineThickness(8);
-	m_resetButton.setOutlineColor(sf::Color::Cyan);
-	m_resetButton.setFillColor(sf::Color::White);
-	m_resetButton.setPosition(buttonOrigin);
+	m_board.newGame();
 }
 
-void Controller::buildUndoButton()
+void Controller::undoMove()
 {
-	const auto windowSize = m_window.getSize();
-
-	const sf::Vector2f buttonSize(static_cast<float>(windowSize.x) * 0.15f, static_cast<float>(windowSize.y) * 0.05f);
-
-	const sf::Vector2f buttonOrigin(static_cast<float>(windowSize.x) * 0.82f, static_cast<float>(windowSize.y) * 0.94f);
-
-	m_undoButton.setSize(buttonSize);
-	m_undoButton.setOutlineThickness(8);
-	m_undoButton.setOutlineColor(sf::Color::Cyan);
-	m_undoButton.setFillColor(sf::Color::White);
-	m_undoButton.setPosition(buttonOrigin);
+	m_board.undoMove();
 }

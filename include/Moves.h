@@ -3,10 +3,11 @@
 #include <SFML/Graphics.hpp>
 
 #include "Circle.h"
+#include "Coordinate.h"
 
 struct Moves
 {
-	Circle pressedCircle;
+	Coordinate pressedCircleCor;
 
-	sf::Vector2f catPosition;
+	Coordinate catCor;
 };

@@ -4,6 +4,7 @@
 
 #include "LevelManager.h"
 #include "Board.h"
+#include "Button.h"
 
 class Controller{
 
@@ -14,9 +15,11 @@ public:
 
 	void run();
 
-	void buildResetButton();
+	void resetGame();
 
-	void buildUndoButton();
+	void undoMove();
+
+	void addMoveToHistory();
 
 private:
 
@@ -26,8 +29,8 @@ private:
 
 	sf::RenderWindow m_window;
 
-	sf::RectangleShape m_resetButton;
-	sf::RectangleShape m_undoButton;
+	Button m_resetButton;
+	Button m_undoButton;
 
 	sf::Color m_bgColor;
 };
