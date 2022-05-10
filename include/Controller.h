@@ -19,6 +19,7 @@ public:
 
 	void undoMove();
 
+	void drawAllElements();
 private:
 
 	bool isCatWin() const;

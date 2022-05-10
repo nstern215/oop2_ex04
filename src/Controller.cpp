@@ -1,6 +1,5 @@
 #include "Controller.h"
 
-
 Controller::Controller():
 	m_window(sf::VideoMode(950, 900), "Circle The Cat"),
 	m_bgColor(sf::Color(204, 207, 176)),
@@ -91,3 +90,8 @@ bool Controller::isCatLose() const
 	return m_board.IsCatBlocked();
 }
 
+
+void Controller::drawAllElements()
+{
+
+}
