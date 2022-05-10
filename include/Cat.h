@@ -4,11 +4,16 @@
 
 #include "Coordinate.h"
 #include "Circle.h"
+#include "Graph.h"
+#include "Node.h"
 
 
 class Cat{
 
 public:
+
+#define START_COL 5
+#define START_ROW 5
 
 	Cat(Coordinate cor = {0 , 0});
 	~Cat() = default;
@@ -23,11 +28,14 @@ public:
 
 	void setPosition(int x, int y);
 
-	int getRadius();
+	int getRadius() const;
 
 	bool catPressed(const int x, const int y);
 
 	sf::Vector2f getPosition();
+
+	//void move(sf::Vector2f newposition);
+	void move(Graph<std::pair<int, int>, Circle>::Iterator begin, Graph<std::pair<int, int>, Circle>::Iterator end, Node<Circle>* catLocation);
 
 private:
 

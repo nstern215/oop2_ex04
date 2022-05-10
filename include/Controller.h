@@ -20,8 +20,9 @@ public:
 	void drawAllElements();
 	void buildAllElements();
 
-private:
-
+	bool isCatWin() const;
+	bool isCatLose() const;
+	
 	Board m_board;
 
 	LevelManager m_manager;

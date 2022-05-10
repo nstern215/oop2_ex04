@@ -1,9 +1,11 @@
 #include "Cat.h"
 
+#include "CatAlgorithm.h"
+
 Cat::Cat(Coordinate cor)
 {
-	m_coordinate.m_col = 5;
-	m_coordinate.m_row = 5;
+	m_coordinate.m_col = START_COL;
+	m_coordinate.m_row = START_ROW;
 	m_isOutOfMap = false;
 	m_shape.setRadius(35);
 	m_shape.setFillColor(sf::Color::Red);
@@ -38,15 +40,25 @@ void Cat::setPosition(int x, int y)
 	m_shape.setPosition(x, y);
 }
 
-sf::Vector2f Cat::getPosition()
+sf::Vector2f Cat::getPosition() const
 {
 	return m_shape.getPosition();
 }
 
-int Cat::getRadius()
+int Cat::getRadius() const
 {
 	return m_shape.getRadius();
 }
+
+void Cat::move(Graph<std::pair<int, int>, Circle>::Iterator begin, Graph<std::pair<int, int>, Circle>::Iterator end, Node<Circle>* catLocation)
+{
+	const CatAlgorithm cat;
+	const Coordinate dest = cat.move(begin, end, catLocation);
+
+	if (dest.m_col != -1)
+		setCoordinants(dest.m_row, dest.m_col);
+}
+
 
 bool Cat::catPressed(const int x, const int y)
 {

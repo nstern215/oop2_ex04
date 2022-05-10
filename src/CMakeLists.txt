@@ -7,4 +7,5 @@
                                               "Board.cpp"
                                               "Button.cpp"
                                               "Circle.cpp"
-                                              "GraphAlgorithm.cpp")
+                                              "GraphAlgorithm.cpp"
+                                              "CatAlgorithm.cpp")
