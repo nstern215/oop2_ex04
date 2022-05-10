@@ -32,9 +32,8 @@ public:
 
 	bool catPressed(const int x, const int y);
 
-	sf::Vector2f getPosition();
+	sf::Vector2f getPosition() const;
 
-	//void move(sf::Vector2f newposition);
 	void move(Graph<std::pair<int, int>, Circle>::Iterator begin, Graph<std::pair<int, int>, Circle>::Iterator end, Node<Circle>* catLocation);
 
 private:
@@ -44,9 +43,8 @@ private:
 
 	sf::CircleShape m_shape;
 	sf::Vector2f m_position;
-	sf::Texture m_texture;
-
 
 	bool m_isOutOfMap;
-	
+
+	std::unique_ptr<sf::Texture> m_texture;
 };

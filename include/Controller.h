@@ -15,6 +15,7 @@ public:
 	~Controller() = default;
 
 	void run();
+private:
 	void resetGame();
 	void undoMove();
 	void drawAllElements();
@@ -22,18 +23,25 @@ public:
 
 	bool isCatWin() const;
 	bool isCatLose() const;
+
+	void showWinMessage();
+	void showLoseMessage();
+
+	void LoadNextLevel();
 	
 	Board m_board;
 
-	LevelManager m_manager;
+	LevelManager m_levelManager;
 
-	//sf::Text m_nominator;
-	//sf::RectangleShape m_moveNominator;
 	sf::RenderWindow m_window;
 
 	Button m_resetButton;
 	Button m_undoButton;
 	Button m_moveNominator;
-
+	
 	sf::Color m_bgColor;
+
+	bool m_showMessage = false;
+	sf::Text m_message;
+	sf::Font m_messageFont;
 };

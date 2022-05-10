@@ -27,6 +27,8 @@ public:
 
 	sf::Vector2f getPosition();
 
+	void blockCircle();
+
 private:
 
 	sf::CircleShape m_shape;

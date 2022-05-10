@@ -23,6 +23,32 @@ void Board::buildGameMap()
 		}
 	}
 
+	for (int i = 0; i < NUM_OF_ROWS; i++)
+	{
+		for (int j = 0; j < NUM_OF_COLS; j++)
+		{
+			const auto current = std::make_pair<int, int>(std::move(i), std::move(j));
+
+			std::list<std::pair<int, int>> neighbors = { {i, j - 1},{i, j + 1},{i - 1, j},{i + 1,j} };
+
+			if (i % 2 == 0)
+			{
+				neighbors.emplace_back(std::make_pair<int, int>(i - 1, j - 1));
+				neighbors.emplace_back(std::make_pair<int, int>(i + 1, j - 1));
+			}
+			else
+			{
+				neighbors.emplace_back(std::make_pair<int, int>(i - 1, j + 1));
+				neighbors.emplace_back(std::make_pair<int, int>(i + 1, j + 1));
+			}
+
+			for (std::list<std::pair<int, int>>::value_type neighbor : neighbors)
+			{
+				m_gameMap.addEdge(current, neighbor);
+			}
+		}
+	}
+	
 	const auto mapSize = m_mapBorder.getSize();
 
 	for (auto& cell : m_gameMap)
@@ -37,32 +63,6 @@ void Board::buildGameMap()
 			x += cell.data().getRadius();
 
 		cell.data().setPosition(x, y);
-	}
-
-	for (int i = 0; i < NUM_OF_ROWS; i++)
-	{
-		for (int j = 0; j < NUM_OF_COLS; j++)
-		{
-			const auto current = std::make_pair<int, int>(std::move(i), std::move(j));
-
-			std::list<std::pair<int, int>> neighbors = { {i, j - 1},{i, j + 1},{i - 1, j},{i + 1,j} };
-
-			if (i % 2 == 0)
-			{
-				neighbors.emplace_back(std::make_pair<int, int>( i - 1, j - 1 ));
-				neighbors.emplace_back(std::make_pair<int, int>( i + 1, j - 1 ));
-			}
-			else
-			{
-				neighbors.emplace_back(std::make_pair<int, int>( i - 1, j + 1 ));
-				neighbors.emplace_back(std::make_pair<int, int>( i + 1, j + 1 ));
-			}
-
-			for (std::list<std::pair<int, int>>::value_type neighbor : neighbors)
-			{
-				m_gameMap.addEdge(current, neighbor);
-			}
-		}
 	}
 }
 
@@ -121,25 +121,23 @@ bool Board::handelMouseClick(sf::Vector2i pressedPoint)
 	const int x = pressedPoint.x;
 	const int y = pressedPoint.y;
 
-	if (m_mapBorder.getGlobalBounds().contains(x, y));
+	if (m_mapBorder.getGlobalBounds().contains(x, y) &&
+		m_gameCat.catPressed(x, y))
 	{
-		if (m_gameCat.catPressed(x, y))
+		for (auto& node : m_gameMap)
 		{
-			for (auto& node : m_gameMap)
+			if (node.data().mouseClicked(pressedPoint))
 			{
-				if (node.data().mouseClicked(pressedPoint))
-				{
-					Moves move;
+				Moves move{};
 
-					move.catCor = m_gameCat.getCoordinate();
-					move.pressedCircleCor = node.data().getCoordinate();
+				move.catCor = m_gameCat.getCoordinate();
+				move.pressedCircleCor = node.data().getCoordinate();
 
-					m_gameMoveHistory.push(move);
+				m_gameMoveHistory.push(move);
 
-					moveCat();
+				moveCat();
 
-					return true;
-				}
+				return true;
 			}
 		}
 	}
@@ -147,7 +145,7 @@ bool Board::handelMouseClick(sf::Vector2i pressedPoint)
 	return false;
 }
 
-int Board::getMoveNumber()
+int Board::getMoveNumber() const
 {
 	return m_gameMoveHistory.size();
 }
@@ -198,9 +196,10 @@ void Board::moveCat()
 
 bool Board::IsCatBlocked() const
 {
-	const auto catCor = m_gameCat.getCoordinate();
-
-	for (const auto& node : m_gameMap[{catCor.m_col, catCor.m_row}])
+	Coordinate catCor = m_gameCat.getCoordinate();
+	Node<Circle> catNode = m_gameMap[{catCor.m_row, catCor.m_col}];
+	
+	for (const auto& node : catNode)
 		if (!node.data().isBlocked())
 			return false;
 
@@ -211,4 +210,20 @@ bool Board::IsCatInEdge() const
 {
 	const auto catCor = m_gameCat.getCoordinate();
 	return m_gameMap[{catCor.m_col, catCor.m_row}].data().isEdge();
+}
+
+void Board::loadLevel(std::list<std::pair<int, int>>& level)
+{
+	newGame();
+	
+	for (auto& node : m_gameMap)
+		node.data().activateCircle();
+
+	for (const auto& circle : level)
+	{
+		if (m_gameCat.getCoordinate() == circle)
+			continue;;
+		
+		m_gameMap[circle].data().blockCircle();
+	}
 }

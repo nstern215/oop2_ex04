@@ -2,21 +2,17 @@
 
 #include "CatAlgorithm.h"
 
-Cat::Cat(Coordinate cor)
+Cat::Cat(Coordinate cor):
+	m_coordinate({START_COL, START_ROW}),
+	m_isOutOfMap(false),
+	m_active(true),
+	m_texture(std::make_unique<sf::Texture>())
 {
-	m_coordinate.m_col = START_COL;
-	m_coordinate.m_row = START_ROW;
-	m_isOutOfMap = false;
 	m_shape.setRadius(35);
 	m_shape.setFillColor(sf::Color::Red);
 	m_shape.setPosition(m_position);
-
-	//if (!m_texture.loadFromFile("cat.png")) 
-	//{
-	//	throw std::runtime_error("Can't load file");
-	//}
-
-	//m_shape.setTexture(m_texture, true);
+	m_texture->loadFromFile("—Pngtree—gray cartoon cat cat cartoon_3925392.png");
+	m_shape.setTexture(m_texture.get());
 }
 
 Coordinate Cat::getCoordinate() const

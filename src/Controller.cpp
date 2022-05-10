@@ -1,20 +1,24 @@
 #include "Controller.h"
 
-Controller::Controller():
+Controller::Controller() :
 	m_window(sf::VideoMode(950, 900), "Circle The Cat"),
 	m_bgColor(sf::Color(204, 207, 176)),
 	m_resetButton("Reset"),
 	m_undoButton("Undo"),
 	m_moveNominator("MoveNominator")
-{}
+{
+	m_messageFont.loadFromFile("Daughter of Fortune.ttf");
+}
 
 void Controller::run()
 {
 	buildAllElements();
 
+	LoadNextLevel();
+
 	sf::Music music;
 
-	music.openFromFile("C:/Users/nomedi1408/Source/Repos/oop2_ex04/resources/AnyConv.com__Fluffing-a-Duck.wav");
+	music.openFromFile("AnyConv.com__Fluffing-a-Duck.wav");
 	music.setLoop(true);
 	music.setVolume(35);
 
@@ -44,22 +48,40 @@ void Controller::run()
 
 					sf::Vector2i pressedPoint = m_window.mapCoordsToPixel(clickPoint);
 
-					if (m_board.handelMouseClick(pressedPoint))
+					if (m_showMessage)
 					{
-						if (isCatWin())
+						if (isCatWin() && m_undoButton.handleMouseClick(pressedPoint))
+							undoMove();
+						else if (isCatLose())
+						{
+							if (m_levelManager.getCurrentLevel() < m_levelManager.getNumOfLevels())
+								LoadNextLevel();
+							else
+								exit(EXIT_SUCCESS);
+						}
+						else
 							resetGame();
 
+						m_showMessage = false;
+					}
+					else if (!m_showMessage && m_board.handelMouseClick(pressedPoint))
+					{
+						if (isCatWin())
+							showLoseMessage();
+
 						if (isCatLose())
-							resetGame();
-						
+							showWinMessage();
+
 						break;
 					}
-					if (m_resetButton.handleMouseClick(pressedPoint))
+					else if (m_resetButton.handleMouseClick(pressedPoint))
 					{
+						m_showMessage = false;
 						resetGame();
 					}
 					else if (m_undoButton.handleMouseClick(pressedPoint))
 					{
+						m_showMessage = false;
 						undoMove();
 					}
 					break;
@@ -71,7 +93,8 @@ void Controller::run()
 
 void Controller::resetGame()
 {
-	m_board.newGame();
+	auto level = m_levelManager.LoadLevel(m_levelManager.getCurrentLevel());
+	m_board.loadLevel(level);
 }
 
 void Controller::undoMove()
@@ -93,12 +116,15 @@ bool Controller::isCatLose() const
 void Controller::buildAllElements()
 {
 	m_board.buildGame(m_window);
-
 	m_resetButton.buildButton(m_window);
-
 	m_undoButton.buildButton(m_window);
-
 	m_moveNominator.buildButton(m_window);
+
+	m_message.setFont(m_messageFont);
+	m_message.setCharacterSize(72);
+	m_message.setPosition({ static_cast<float>(m_window.getSize().x) / 4, static_cast<float>(m_window.getSize().y) / 4 });
+	m_message.setFillColor(sf::Color(167, 232, 184));
+	m_message.setOutlineThickness(3);
 }
 
 void Controller::drawAllElements()
@@ -110,4 +136,25 @@ void Controller::drawAllElements()
 	m_undoButton.draw(m_window, 0);
 
 	m_moveNominator.draw(m_window, m_board.getMoveNumber());
+
+	if (m_showMessage)
+		m_window.draw(m_message);
+}
+
+void Controller::showWinMessage()
+{
+	m_showMessage = true;
+	m_message.setString("You Win!\nClick for the next level");
+}
+
+void Controller::showLoseMessage()
+{
+	m_showMessage = true;
+	m_message.setString("You Lose!\nyou can undo last move\nor click anywhere to reset");
+}
+
+void Controller::LoadNextLevel()
+{
+	auto level = m_levelManager.LoadNextLevel();
+	m_board.loadLevel(level);
 }

@@ -28,7 +28,9 @@ public:
 	bool IsCatBlocked() const;
 	bool IsCatInEdge() const;
 
-	int getMoveNumber();
+	int getMoveNumber() const;
+
+	void loadLevel(std::list<std::pair<int, int>>& level);
 
 private:
 

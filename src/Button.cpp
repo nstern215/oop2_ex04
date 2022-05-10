@@ -12,7 +12,7 @@ void Button::draw(sf::RenderWindow & window, int playNum)
 	window.draw(m_shape);
 
 	auto font = sf::Font();
-	font.loadFromFile("C:/Users/nomedi1408/Source/Repos/oop2_ex04/resources/Daughter of Fortune.ttf");
+	font.loadFromFile("Daughter of Fortune.ttf");
 	sf::Text mode;
 	mode.setFillColor(sf::Color(43, 46, 120));
 	mode.setOutlineThickness(3);
@@ -72,8 +72,6 @@ void Button::buildButton(sf::RenderWindow& window)
 
 	if (m_name == "MoveNominator")
 	{
-		//(static_cast<float>(windowSize.x) * 0.5f, static_cast<float>(windowSize.y) * 0.07f);
-
 		buttonSize.x = static_cast<float>(windowSize.x) * 0.52f;
 		buttonSize.y = static_cast<float>(windowSize.y) * 0.07f;
 
@@ -81,8 +79,6 @@ void Button::buildButton(sf::RenderWindow& window)
 	}
 	else
 	{
-		//buttonSize(static_cast<float>(windowSize.x) * 0.17f, static_cast<float>(windowSize.y) * 0.07f);
-
 		buttonSize.x = static_cast<float>(windowSize.x) * 0.17f;
 		buttonSize.y = static_cast<float>(windowSize.y) * 0.07f;
 

@@ -58,3 +58,9 @@ bool Circle::mouseClicked(sf::Vector2i pressedPoint)
 	}
 	return false;
 }
+void Circle::blockCircle()
+{
+	m_shape.setFillColor(sf::Color(3, 173, 35));
+	m_active = false;
+}
+

@@ -6,19 +6,23 @@
 #include "Circle.h"
 #include "Moves.h"
 
-enum GameDifficulty
-{
-	STARTER,
-	EASY,
-	MEDIUM,
-	HARD
-};
-
 
 class LevelManager{
 
 public:
-	LevelManager() = default;
+	LevelManager();
 
-	void setGameDifficulty();
+	std::list<std::pair<int, int>> LoadLevel(int level);
+	std::list<std::pair<int, int>> LoadNextLevel();
+
+	int getCurrentLevel() const;
+	int getNumOfLevels() const;
+
+	void reset();
+
+private:
+	int m_level;
+	const int m_numOfLevels = 4;
+	const int m_row = 11;
+	const int m_col = 11;
 };
