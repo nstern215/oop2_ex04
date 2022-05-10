@@ -47,3 +47,12 @@ int Cat::getRadius()
 {
 	return m_shape.getRadius();
 }
+
+bool Cat::catPressed(const int x, const int y)
+{
+	if (m_shape.getGlobalBounds().contains(x, y))
+	{
+		return false;
+	}
+	return true;
+}

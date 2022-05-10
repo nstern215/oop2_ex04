@@ -15,7 +15,7 @@ void Controller::run()
 	sf::Music music;
 
 	music.openFromFile("C:/Users/nomedi1408/Source/Repos/oop2_ex04/resources/AnyConv.com__Fluffing-a-Duck.wav");
-
+	music.setLoop(true);
 	music.setVolume(35);
 
 	music.play();
@@ -88,9 +88,9 @@ void Controller::drawAllElements()
 {
 	m_board.drawGameMap(m_window);
 
-	m_resetButton.draw(m_window);
+	m_resetButton.draw(m_window, 0);
 
-	m_undoButton.draw(m_window);
+	m_undoButton.draw(m_window, 0);
 
-	m_moveNominator.draw(m_window);
+	m_moveNominator.draw(m_window, m_board.getMoveNumber());
 }

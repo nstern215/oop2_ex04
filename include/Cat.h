@@ -25,9 +25,9 @@ public:
 
 	int getRadius();
 
-	sf::Vector2f getPosition();
+	bool catPressed(const int x, const int y);
 
-	void move(sf::Vector2f newposition);
+	sf::Vector2f getPosition();
 
 private:
 

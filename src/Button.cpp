@@ -7,7 +7,7 @@ Button::Button(std::string buttonName):
 	m_name(buttonName)
 {}
 
-void Button::draw(sf::RenderWindow & window)
+void Button::draw(sf::RenderWindow & window, int playNum)
 {
 	window.draw(m_shape);
 
@@ -20,7 +20,11 @@ void Button::draw(sf::RenderWindow & window)
 
 	if (m_name == "MoveNominator")
 	{	
-		m_textToPrint = "Number Of Moves:";
+		std::string str1 = "Number Of Moves: ";
+		std::string str2 = std::to_string(playNum);
+
+		m_textToPrint = str1 + str2;
+
 		mode.setScale(static_cast<float>(m_shape.getSize().x * 0.0035), static_cast<float>(m_shape.getSize().y * 0.03));
 	}
 	else

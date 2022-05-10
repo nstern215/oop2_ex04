@@ -84,7 +84,7 @@ void Board::setCatPosition()
 
 	int x = (static_cast<float>(mapSize.x) * 0.06f) + (cordi.m_col * (m_gameCat.getRadius() * 2.1));
 
-	const int y = (static_cast<float>(mapSize.y) * 0.06f) + (cordi.m_row * (m_gameCat.getRadius() * 2));
+	int y = (static_cast<float>(mapSize.y) * 0.06f) + (cordi.m_row * (m_gameCat.getRadius() * 2));
 
 	if (cordi.m_row % 2 != 0)
 		x += m_gameCat.getRadius();
@@ -121,25 +121,33 @@ bool Board::handelMouseClick(sf::Vector2i pressedPoint)
 
 	if (m_mapBorder.getGlobalBounds().contains(x, y));
 	{
-		for (auto& node : m_gameMap)
+		if (m_gameCat.catPressed(x, y))
 		{
-			if (node.data().mouseClicked(pressedPoint))
+			for (auto& node : m_gameMap)
 			{
-				Moves move;
+				if (node.data().mouseClicked(pressedPoint))
+				{
+					Moves move;
 
-				move.catCor = m_gameCat.getCoordinate();
-				move.pressedCircleCor = node.data().getCoordinate();
+					move.catCor = m_gameCat.getCoordinate();
+					move.pressedCircleCor = node.data().getCoordinate();
 
-				m_gameMoveHistory.push(move);
+					m_gameMoveHistory.push(move);
 
-				moveCat();
+					moveCat();
 
-				return true;
+					return true;
+				}
 			}
 		}
 	}
 
 	return false;
+}
+
+int Board::getMoveNumber()
+{
+	return m_gameMoveHistory.size();
 }
 
 bool Board::firstPlay()
@@ -170,7 +178,7 @@ void Board::undoMove()
 
 	m_gameMap[{m_gameMoveHistory.top().pressedCircleCor.m_row, m_gameMoveHistory.top().pressedCircleCor.m_col}].data().activateCircle();
 
-	m_gameCat.setCoordinants(m_gameMoveHistory.top().catCor.m_col, m_gameMoveHistory.top().catCor.m_row);
+	m_gameCat.setCoordinants(m_gameMoveHistory.top().catCor.m_row, m_gameMoveHistory.top().catCor.m_col);
 	setCatPosition();
 
 	m_gameMoveHistory.pop();

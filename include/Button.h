@@ -9,7 +9,7 @@ class Button{
 public:
 	Button(std::string buttonName);
 
-	void draw(sf::RenderWindow& window);
+	void draw(sf::RenderWindow& window, int playNum);
 
 	void setPosition(int x, int y);
 
