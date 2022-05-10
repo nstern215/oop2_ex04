@@ -167,6 +167,8 @@ void Board::newGame()
 
 void Board::undoMove()
 {
+	if (m_gameMoveHistory.empty())
+		return;
 
 	m_gameMap[{m_gameMoveHistory.top().pressedCircleCor.m_row, m_gameMoveHistory.top().pressedCircleCor.m_col}].data().activateCircle();
 

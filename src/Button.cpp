@@ -3,8 +3,6 @@
 #include <fstream>
 #include <filesystem>
 
-//#define FONT_PATH "C:\Users\nomedi1408\source\repos\oop2_ex04\resources\Daughter of Fortune.ttf"
-
 Button::Button(std::string buttonName):
 	m_name(buttonName)
 {}
@@ -14,11 +12,24 @@ void Button::draw(sf::RenderWindow & window)
 	window.draw(m_shape);
 
 	auto font = sf::Font();
-	font.loadFromFile("C:/Windows/Fonts/Arial.ttf");
-	sf::Text mode(m_name, font);
+	font.loadFromFile("C:/Users/nomedi1408/Source/Repos/oop2_ex04/resources/Daughter of Fortune.ttf");
+	sf::Text mode;
 	mode.setFillColor(sf::Color(43, 46, 120));
-	mode.setOutlineThickness(6);
-	mode.setPosition(m_shape.getPosition().x + 30, m_shape.getPosition().y + 5);
+	mode.setOutlineThickness(3);
+	mode.setPosition(m_shape.getPosition().x + 15, m_shape.getPosition().y - 10);
+
+	if (m_name == "MoveNominator")
+	{	
+		m_textToPrint = "Number Of Moves:";
+		mode.setScale(static_cast<float>(m_shape.getSize().x * 0.0035), static_cast<float>(m_shape.getSize().y * 0.03));
+	}
+	else
+	{
+		m_textToPrint = m_name;
+		mode.setScale(static_cast<float>(m_shape.getSize().x) * 0.01f, static_cast<float>(m_shape.getSize().y) * 0.03f);
+	}
+	mode.setString(m_textToPrint);
+	mode.setFont(font);
 	mode.setOrigin(m_shape.getOrigin());
 	window.draw(mode);
 
@@ -52,22 +63,39 @@ void Button::buildButton(sf::RenderWindow& window)
 	float n;
 
 	const auto windowSize = window.getSize();
+	
+	sf::Vector2f buttonSize;
 
-	const sf::Vector2f buttonSize(static_cast<float>(windowSize.x) * 0.15f, static_cast<float>(windowSize.y) * 0.05f);
-
-	if (m_name == "Reset")
+	if (m_name == "MoveNominator")
 	{
-		n = 0.03;
-	}
-	else if (m_name == "Undo")
-	{
-		n = 0.82;
-	}
+		//(static_cast<float>(windowSize.x) * 0.5f, static_cast<float>(windowSize.y) * 0.07f);
 
-	const sf::Vector2f buttonOrigin(static_cast<float>(windowSize.x) * n, static_cast<float>(windowSize.y) * 0.94f);
+		buttonSize.x = static_cast<float>(windowSize.x) * 0.52f;
+		buttonSize.y = static_cast<float>(windowSize.y) * 0.07f;
+
+		n = 0.25;
+	}
+	else
+	{
+		//buttonSize(static_cast<float>(windowSize.x) * 0.17f, static_cast<float>(windowSize.y) * 0.07f);
+
+		buttonSize.x = static_cast<float>(windowSize.x) * 0.17f;
+		buttonSize.y = static_cast<float>(windowSize.y) * 0.07f;
+
+		if (m_name == "Reset")
+		{
+			n = 0.03;
+		}
+		else if (m_name == "Undo")
+		{
+			n = 0.82;
+		}
+	}	
+
+	const sf::Vector2f buttonOrigin(static_cast<float>(windowSize.x) * n, static_cast<float>(windowSize.y) * 0.92f);
 
 	m_shape.setSize(buttonSize);
-	m_shape.setOutlineThickness(8);
+	m_shape.setOutlineThickness(5);
 	m_shape.setOutlineColor(sf::Color(183, 186, 156));
 	m_shape.setFillColor(sf::Color(143, 145, 121));
 	m_shape.setPosition(buttonOrigin);

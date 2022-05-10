@@ -25,4 +25,5 @@ private:
 	sf::Vector2f m_position;
 
 	std::string m_name;
+	std::string m_textToPrint;
 };

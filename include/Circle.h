@@ -1,17 +1,17 @@
 #pragma once
 
-//#include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
-#include "Item.h"
+#include "Coordinate.h"
 
-class Circle: public Item{
+class Circle{
 
 public:
 
 	Circle(Coordinate cor = { 0,0 }, bool edge = false);
 	~Circle() = default;
 
-	void draw(sf::RenderWindow& window) override;
+	void draw(sf::RenderWindow& window);
 
 	Coordinate getCoordinate() const;
 
@@ -31,6 +31,9 @@ private:
 
 	sf::CircleShape m_shape;
 	sf::Vector2f m_position;
+
+	Coordinate m_coordinate;
+	bool m_active;
 
 	bool m_edge;
 	bool m_isBlocked = false;
