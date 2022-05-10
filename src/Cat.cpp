@@ -8,6 +8,13 @@ Cat::Cat(Coordinate cor)
 	m_shape.setRadius(35);
 	m_shape.setFillColor(sf::Color::Red);
 	m_shape.setPosition(m_position);
+
+	//if (!m_texture.loadFromFile("cat.png")) 
+	//{
+	//	throw std::runtime_error("Can't load file");
+	//}
+
+	//m_shape.setTexture(m_texture, true);
 }
 
 Coordinate Cat::getCoordinate() const

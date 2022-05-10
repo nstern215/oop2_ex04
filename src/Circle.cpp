@@ -1,11 +1,12 @@
 #include "Circle.h"
 
 Circle::Circle(Coordinate cor, bool edge):
-	Item(cor),
+	m_coordinate(cor),
 	m_edge(edge)
 {
 	m_shape.setRadius(35);
-	m_shape.setFillColor(sf::Color(252, 248, 3));
+	m_shape.setFillColor(sf::Color(239, 247, 67));
+	m_active = true;
 }
 
 void Circle::draw(sf::RenderWindow& window)
@@ -32,7 +33,7 @@ int Circle::getRadius()
 void Circle::activateCircle()
 {
 	m_active = true;
-	m_shape.setFillColor(sf::Color(252, 248, 3));
+	m_shape.setFillColor(sf::Color(239, 247, 67));
 }
 
 void Circle::setPosition(int x, int y)

@@ -2,7 +2,6 @@
                                               "Node.cpp"
                                               "Graph.cpp"
                                               "Controller.cpp"
-                                              "Item.cpp"
                                               "LevelManager.cpp"
                                               "Cat.cpp"
                                               "Board.cpp"
