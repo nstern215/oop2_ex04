@@ -1,1 +1,95 @@
 # oop2_ex04
+1.
+ex04 "Circle The Cat"
+
+2.
+Netanel Stern, ID 206342255
+Daniel Yosef, ID 322017518
+
+3.
+	This is a puzzle game where the player is to solve the "riddle" according
+  to the rules of the game. The player is represented a map the the circles
+  on the map are either blocked or open. In the map there is a cat that can
+  only walk on the open circles. The player needs to block out the cat completly
+  before it is able to reach the edge of the map.
+4.
+	There are Five objects:
+  1) The map - is built based on a graph so we can keep track of which circles
+     blocked and then help the cat determen what its next move will be.
+  2) The cat - moves based on the pressed circles.
+  3) The algorithem - this algorithem helps the cat know how to manover based on
+     the circles that are pressed around it.
+  4) The controller - is incharge of starting and ending the game, and taking 
+     of the window of the game and every thing that has to do with it.
+  5) The level manager - determends the difficulty of the level and tells the board
+      how build it self.
+5.
+	HEADER: - Board: This file holds the diffinition of the
+				   the class of Board and of its functions and memmbers.
+
+		  - Button: This file holds the diffinition of the
+				            the class of Button and its functions.
+
+		  - Cat:This file holds the diffinition of the
+				   	    the class of Cat and of its functions and memmbers.
+
+		  - CatAlgorithem: This file holds the diffinition of the
+				   the template class of CatAlgorithem and of its functions.
+
+		  - Circle: This file holds the diffinition of the
+				   the class of Circle and of its functions and memmbers.
+
+		  - Controller: This file holds the diffinition of the
+				   the class of Controller and of its functions and memmbers.
+
+		  - Coordinate: This file holds the diffinition of the
+				   the struct of Coordinate and of its functions and memmbers.
+
+		  - Graph: This file holds the diffinition of the
+				   the Tamplate class of Graph and of its functions and memmbers.
+
+		  - GraphAlgorithem: This file holds the diffinition of the
+				   the Tamplate class of GraphAlgorithem and of its functions and memmbers.
+
+
+		  - LevelManager: This file holds the diffinition of the
+				   the class LevelManager and of its functions and memmbers.
+
+		  - Moves:  This file holds the diffinition of the
+				   the struct of Moves and of its functions and memmbers.
+
+
+		  - Node:  This file holds the diffinition of the
+				   the template class of Node and of its functions.
+
+
+	CPP:  Board: Holds the functions of the class.
+
+		  - Button: Holds the functions of the class.
+
+		  - Cat:Holds the functions of the class.
+
+		  - CatAlgorithem: Holds the functions of the class.
+
+		  - Circle: This file holds the diffinition of the
+				   the class of Circle and of its functions and memmbers.
+
+		  - Controller: Holds the functions of the class.
+
+		  - Graph: Empty File.
+
+		  - GraphAlgorithem: Empty File.
+
+		  - LevelManager: Holds the functions of the class.
+
+		  - Node: Empty File.
+
+6.
+  m_gameMap: holds the map of the game.
+   m_gameMoveHistory: holds all of the moves that have been made so
+                      far by the player and the cat, so that reset 
+                      and undo may be done.
+	
+  7. CatAlgorithem- calculation of the most definate way the cat should
+                    with risk.
+  
