@@ -90,6 +90,11 @@ Daniel Yosef, ID 322017518
                       far by the player and the cat, so that reset 
                       and undo may be done.
 	
-  7. CatAlgorithem- calculation of the most definate way the cat should
-                    with risk.
+  7. CatAlgorithem- The board is represented by a graph, that inorder for the cat to win
+  	he needs to get to the edge of the graph(items of the graph hold a memner 
+	witch indicates if they are an edge item or not).By using BFS we recieve the shortest
+	track from the cat to all of the edge items. Once we have all the tracks we sort them
+	by leangth, and the check to see witch of the track holds the less risk taking.
+	The parameters of the level of the risk can be changed to be more of a risk taking, and
+	by that also determaning the game level diffculty.
   
